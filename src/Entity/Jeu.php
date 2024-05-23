@@ -24,9 +24,16 @@ class Jeu
     #[ORM\OneToMany(targetEntity: Partie::class, mappedBy: 'jeu')]
     private Collection $parties;
 
+    /**
+     * @var Collection<int, Stream>
+     */
+    #[ORM\OneToMany(targetEntity: Stream::class, mappedBy: 'jeu')]
+    private Collection $streams;
+
     public function __construct()
     {
         $this->parties = new ArrayCollection();
+        $this->streams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,6 +77,36 @@ class Jeu
             // set the owning side to null (unless already changed)
             if ($party->getJeu() === $this) {
                 $party->setJeu(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Stream>
+     */
+    public function getStreams(): Collection
+    {
+        return $this->streams;
+    }
+
+    public function addStream(Stream $stream): static
+    {
+        if (!$this->streams->contains($stream)) {
+            $this->streams->add($stream);
+            $stream->setJeu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStream(Stream $stream): static
+    {
+        if ($this->streams->removeElement($stream)) {
+            // set the owning side to null (unless already changed)
+            if ($stream->getJeu() === $this) {
+                $stream->setJeu(null);
             }
         }
 

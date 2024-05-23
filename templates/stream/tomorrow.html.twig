@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stream{% endblock %}
+
+{% block body %}
+    <h1>Stream</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Utilisateur</th>
+            <th>Joue à</th>
+            <th>URL</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for stream in streams %}
+            <tr>
+                <td>{{ stream.user.pseudo }}</td>
+                <td>{{ stream.jeu.name }}</td>
+                <td><a href="{{ stream.url }}" class="btn btn-primary">Accéder au stream</a></td>
+                <td>{{ stream.startDate ? stream.startDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

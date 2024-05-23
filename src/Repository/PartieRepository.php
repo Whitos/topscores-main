@@ -40,23 +40,6 @@ class PartieRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-    public function findScoresByGameCurrentMonth(mixed $jeu)
-    {
-        $date = new \DateTime();
-        $date->modify('first day of this month');
-        $date->setTime(0, 0, 0);
-        $date2 = new \DateTime();
-        $date2->modify('last day of this month');
-        $date2->setTime(23, 59, 59);
 
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.jeu = :jeu')
-            ->andWhere('p.date BETWEEN :date AND :date2')
-            ->setParameter('jeu', $jeu)
-            ->setParameter('date', $date)
-            ->setParameter('date2', $date2)
-            ->orderBy('p.score', 'DESC')
-            ->getQuery()
-            ->getResult();
-    }
+
 }
